@@ -8,38 +8,32 @@ def export_project_to_exe():
     incluyendo todos los archivos y carpetas del proyecto (como scripts, bases de datos, etc).
     Permite al usuario elegir la carpeta de destino para el .exe generado.
     """
-    # Selecciona la carpeta de destino
     output_dir = filedialog.askdirectory(title="Selecciona la carpeta de destino del ejecutable")
     if not output_dir:
-        return  # Cancelado
+        return
 
     project_dir = os.path.dirname(os.path.abspath(__file__))
     main_script = os.path.join(project_dir, "main.py")
 
-    # Construir lista de --add-data para todos los archivos y carpetas relevantes, incluyendo imágenes
     add_data_args = []
     image_exts = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.ico')
     resource_exts = ('.py', '.sqlite', '.db', '.txt', '.xml', '.json', '.csv') + image_exts
     for root, dirs, files in os.walk(project_dir):
         for name in files:
             if name.endswith('.py') and os.path.abspath(os.path.join(root, name)) == os.path.abspath(main_script):
-                continue  # main.py ya se incluye
-            # Incluir archivos de base de datos, recursos y ahora imágenes
+                continue
             if name.lower().endswith(resource_exts):
                 file_path = os.path.join(root, name)
                 rel_path = os.path.relpath(file_path, project_dir)
                 add_data_args.append(f"{rel_path};{rel_path}")
         for name in dirs:
-            # Incluir carpetas completas (por ejemplo, Database/)
             dir_path = os.path.join(root, name)
             rel_path = os.path.relpath(dir_path, project_dir)
             if not rel_path.startswith('.'):
                 add_data_args.append(f"{rel_path};{rel_path}")
 
-    # Eliminar duplicados
     add_data_args = list(set(add_data_args))
 
-    # Construir el comando PyInstaller
     cmd = [
         "pyinstaller",
         "--onefile",
