@@ -1,0 +1,17 @@
+CREATE DATABASE gestiontarea;
+USE gestiontarea;
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    email VARCHAR(100)
+);
+
+CREATE TABLE tareas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100),
+    estado ENUM('pendiente', 'en_progreso', 'completada') DEFAULT 'pendiente',
+    fecha_limite DATE,
+    prioridad ENUM('alta', 'media', 'baja') DEFAULT 'media',
+    usuario_id INT,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
