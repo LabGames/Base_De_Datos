@@ -94,7 +94,7 @@ class FormularioClientes:
 
             self.tree.pack()
 
-            self.cargar_usuarios(tree)
+            self.cargar_usuarios(self.tree)
 
             label_registrar = tk.Label(
                 base,
