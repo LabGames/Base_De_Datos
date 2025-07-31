@@ -48,8 +48,8 @@ class FormularioClientes:
             textBoxApellidos.grid(row=2, column=1, padx=5, pady=5)
 
             Label(groupBox, text="Email:", width=13, font=("Segoe UI",12), bg=groupbox_bg, fg=label_color).grid(row=3, column=0, padx=5, pady=5)
-            textBoxEmail = Entry(groupBox, bg=entry_bg)
-            textBoxEmail.grid(row=3, column=1, padx=5, pady=5)
+            self.textBoxEmail = Entry(groupBox, width=30)
+            self.textBoxEmail.grid(row=3, column=1, padx=5, pady=5)
 
             Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(textBoxNombres.get(), textBoxApellidos.get(), textBoxEmail.get())).grid(row=4, column=0, padx=2, pady=8)
             Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(textBoxId.get(), textBoxNombres.get(), textBoxApellidos.get(), textBoxEmail.get())).grid(row=4, column=1, padx=2, pady=8)
@@ -129,10 +129,16 @@ class FormularioClientes:
 
     def guardar_usuario(self, nombre, apellido, email):
         if nombre and apellido and email:
+            print(f"NOMBRE: {nombre}, APELLIDO: {apellido}, EMAIL: {email}")
             ConexionDB.crear_usuario(nombre, apellido, email)
             self.cargar_usuarios(self.tree)
+            self.textBoxId.delete(0, tk.END)
+            self.textBoxNombres.delete(0, tk.END)
+            self.textBoxApellidos.delete(0, tk.END)
+            self.textBoxEmail.delete(0, tk.END)
             messagebox.showinfo("Éxito", "Usuario guardado.")
         else:
+            print(f"NOMBRE: {nombre}, APELLIDO: {apellido}, EMAIL: {email}")
             messagebox.showerror("Error", "Todos los campos son requeridos.")
 
     def modificar_usuario(self, user_id, nombre, apellido, email):
