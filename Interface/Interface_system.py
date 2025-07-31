@@ -49,9 +49,9 @@ class FormularioClientes:
             combo = ttk.Combobox(groupBox, values=["Masculino", "Femenino", "Anonimo"], textvariable=seleccionSexo)
             combo.grid(row=3, column=1, padx=5, pady=5)
 
-            Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, activebackground="#28527a").grid(row=4, column=0, padx=2, pady=8)
-            Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, activebackground="#28527a").grid(row=4, column=1, padx=2, pady=8)
-            Button(groupBox, text="Eliminar", width=10, bg=button_bg, fg=button_fg, activebackground="#28527a").grid(row=4, column=2, padx=2, pady=8)
+            Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(textBoxNombres.get(), textBoxApellidos.get())).grid(row=4, column=0, padx=2, pady=8)
+            Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(textBoxId.get(), textBoxNombres.get(), textBoxApellidos.get())).grid(row=4, column=1, padx=2, pady=8)
+            Button(groupBox, text="Eliminar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.eliminar_usuario(textBoxId.get())).grid(row=4, column=2, padx=2, pady=8)
 
             groupBox2 = LabelFrame(
                 base, text="Lista del personal", padx=5, pady=5,
@@ -109,3 +109,24 @@ class FormularioClientes:
     def destruir_interface(self):
         if hasattr(self, 'base'):
             self.base.destroy()
+
+    def guardar_usuario(self, nombre, email):
+        if nombre and email:
+            self.db.crear_usuario(nombre, email)
+            messagebox.showinfo("Éxito", "Usuario guardado.")
+        else:
+            messagebox.showerror("Error", "Nombre y correo requeridos.")
+            
+    def modificar_usuario(self, user_id, nombre, email):
+        if user_id and nombre and email:
+            self.db.actualizar_usuario(user_id, nombre, email)
+            messagebox.showinfo("Éxito", "Usuario modificado.")
+        else:
+            messagebox.showerror("Error", "Todos los campos son requeridos.")
+
+    def eliminar_usuario(self, user_id):
+        if user_id:
+            self.db.eliminar_usuario(user_id)
+            messagebox.showinfo("Éxito", "Usuario eliminado.")
+        else:
+            messagebox.showerror("Error", "ID requerido.")
