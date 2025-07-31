@@ -38,22 +38,22 @@ class ConexionDB:
             print(f"Error al acceder a la tabla usuarios: {e}")
             return []
         
-    def crear_usuario(self, nombre, email):
+    def crear_usuario(self, nombre):
         try:
             self.cursor.execute(
                 "INSERT INTO usuarios (nombre, email) VALUES (%s, %s)",
-                (nombre, email)
+                (nombre)
             )
             self.conn.commit()
             print("Usuario creado correctamente.")
         except mysql.connector.Error as e:
             print(f"Error al crear usuario: {e}")
 
-    def actualizar_usuario(self, user_id, nombre, email):
+    def actualizar_usuario(self, user_id, nombre):
         try:
             self.cursor.execute(
                 "UPDATE usuarios SET nombre=%s, email=%s WHERE id=%s",
-                (nombre, email, user_id)
+                (nombre, user_id)
             )
             self.conn.commit()
             print("Usuario actualizado correctamente.")

@@ -117,17 +117,17 @@ class FormularioClientes:
         if hasattr(self, 'base'):
             self.base.destroy()
 
-    def guardar_usuario(self, nombre, email):
-        if nombre and email:
-            self.db.crear_usuario(nombre, email)
+    def guardar_usuario(self, nombre):
+        if nombre:
+            self.db.crear_usuario(nombre)
             self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario guardado.")
         else:
             messagebox.showerror("Error", "Nombre y correo requeridos.")
 
-    def modificar_usuario(self, user_id, nombre, email):
-        if user_id and nombre and email:
-            self.db.actualizar_usuario(user_id, nombre, email)
+    def modificar_usuario(self, user_id, nombre):
+        if user_id and nombre :
+            self.db.actualizar_usuario(user_id, nombre)
             self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario modificado.")
         else:
@@ -153,7 +153,6 @@ class FormularioClientes:
             item = self.tree.item(selected_item)
             valores = item["values"]
 
-            # Asignamos valores a los campos de texto
             self.textBoxId.delete(0, tk.END)
             self.textBoxId.insert(0, valores[0])
 
