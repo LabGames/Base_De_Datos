@@ -7,7 +7,7 @@ from Interface.Interface_system import FormularioClientes
 from Dependencies.Conection import ConexionDB
 
 if __name__ == "__main__":
-    db = ConexionDB("127.0.0.1:3306", "root", "", "gestiontarea")
+    db = ConexionDB("localhost", "root", "", "gestiontarea")
     db.conectar()
     usuarios = db.obtener_usuarios()
     print(usuarios)
