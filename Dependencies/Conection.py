@@ -1,17 +1,25 @@
-import sqlite3
+import mysql.connector
 
 class ConexionDB:
-    def __init__(self, db_path="DB_Gestion_Tareas.db"):
-        self.db_path = db_path
+    def __init__(self, host="localhost", user="root", password="", database="gestiontarea"):
+        self.host = host
+        self.user = user
+        self.password = password
+        self.database = database
         self.conn = None
         self.cursor = None
 
     def conectar(self):
         try:
-            self.conn = sqlite3.connect(self.db_path)
+            self.conn = mysql.connector.connect(
+                host=self.host,
+                user=self.user,
+                password=self.password,
+                database=self.database
+            )
             self.cursor = self.conn.cursor()
-            print("Conexión exitosa a la base de datos.")
-        except sqlite3.Error as e:
+            print("Conexión exitosa a la base de datos MySQL.")
+        except mysql.connector.Error as e:
             print(f"Error al conectar a la base de datos: {e}")
 
     def cerrar(self):
@@ -26,7 +34,7 @@ class ConexionDB:
         try:
             self.cursor.execute("SELECT * FROM usuarios")
             return self.cursor.fetchall()
-        except sqlite3.Error as e:
+        except mysql.connector.Error as e:
             print(f"Error al acceder a la tabla usuarios: {e}")
             return []
         
