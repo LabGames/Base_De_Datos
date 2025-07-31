@@ -8,7 +8,8 @@ from Dependencies.Conection import ConexionDB
 
 class FormularioClientes:
     def __init__(self, db):
-        self.db = db
+        self.db = ConexionDB()
+        self.db.conectar()
 
     def Formulario(self, root):
         try:
@@ -36,7 +37,7 @@ class FormularioClientes:
             groupBox.place(x=x_groupbox, y=y_groupbox)
 
             Label(groupBox, text="ID:", width=13, font=("Segoe UI",12), bg=groupbox_bg, fg=label_color).grid(row=0, column=0, padx=5, pady=5)
-            self.textBoxId = Entry(groupBox, bg=entry_bg)
+            self.textBoxId = Entry(groupBox, bg=entry_bg, state="readonly")
             self.textBoxId.grid(row=0, column=1, padx=5, pady=5)
 
             Label(groupBox, text="Nombres:", width=13, font=("Segoe UI",12), bg=groupbox_bg, fg=label_color).grid(row=1, column=0, padx=5, pady=5)
@@ -52,7 +53,7 @@ class FormularioClientes:
             self.textBoxEmail.grid(row=3, column=1, padx=5, pady=5)
 
             Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(self.textBoxNombres.get() + " " + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=0, padx=2, pady=8)
-            Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(self.textBoxId.get(), self.textBoxNombres.get() + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=1, padx=2, pady=8)
+            Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(self.textBoxId.get(), self.textBoxNombres.get() + " " + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=1, padx=2, pady=8)
             Button(groupBox, text="Eliminar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.eliminar_usuario(self.textBoxId.get())).grid(row=4, column=2, padx=2, pady=8)
 
             groupBox2 = LabelFrame(
@@ -118,7 +119,7 @@ class FormularioClientes:
     def guardar_usuario(self, nombre, email):
         if nombre and email:
             print(f"NOMBRE: {nombre}, EMAIL: {email}")
-            ConexionDB.crear_usuario(nombre, email)
+            self.db.crear_usuario(nombre, email)
             self.cargar_usuarios(self.tree)
             self.textBoxId.delete(0, tk.END)
             self.textBoxNombres.delete(0, tk.END)
@@ -131,7 +132,7 @@ class FormularioClientes:
 
     def modificar_usuario(self, user_id, nombre, email):
         if user_id and nombre and email:
-            ConexionDB.actualizar_usuario(user_id, nombre, email)
+            self.db.actualizar_usuario(user_id, nombre, email)
             self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario modificado.")
         else:
@@ -139,7 +140,7 @@ class FormularioClientes:
 
     def eliminar_usuario(self, user_id):
         if user_id:
-            ConexionDB.eliminar_usuario(user_id)
+            self.db.eliminar_usuario(user_id)
             self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario eliminado.")
         else:
@@ -157,8 +158,10 @@ class FormularioClientes:
             item = self.tree.item(selected_item)
             valores = item["values"]
 
-            self.textBoxId.delete(0, tk.END)
+            self.textBoxId.config(state="normal")
+            self.textBoxId.delete(0, END)
             self.textBoxId.insert(0, valores[0])
+            self.textBoxId.config(state="readonly")
 
             self.textBoxNombres.delete(0, tk.END)
             self.textBoxNombres.insert(0, valores[1])
