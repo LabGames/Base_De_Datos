@@ -79,20 +79,20 @@ class FormularioClientes:
                 font=("Segoe UI Semibold", 11, "bold")
             )
 
-            tree = ttk.Treeview(groupBox2, columns=("ID", "Nombres", "Apellidos", "Sexo"), show='headings', height=5)
-            tree.column("# 1", anchor=CENTER)
-            tree.heading("# 1", text="ID")
+            self.tree = ttk.Treeview(groupBox2, columns=("ID", "Nombres", "Apellidos", "Sexo"), show='headings', height=5)
+            self.tree.column("# 1", anchor=CENTER)
+            self.tree.heading("# 1", text="ID")
 
-            tree.column("# 2", anchor=CENTER)
-            tree.heading("# 2", text="Nombres")
+            self.tree.column("# 2", anchor=CENTER)
+            self.tree.heading("# 2", text="Nombres")
 
-            tree.column("# 3", anchor=CENTER)
-            tree.heading("# 3", text="Apellidos")
+            self.tree.column("# 3", anchor=CENTER)
+            self.tree.heading("# 3", text="Apellidos")
 
-            tree.column("# 4", anchor=CENTER)
-            tree.heading("# 4", text="Sexo")
+            self.tree.column("# 4", anchor=CENTER)
+            self.tree.heading("# 4", text="Sexo")
 
-            tree.pack()
+            self.tree.pack()
 
             self.cargar_usuarios(tree)
 
