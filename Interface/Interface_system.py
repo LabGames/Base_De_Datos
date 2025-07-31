@@ -4,6 +4,8 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 
+from Dependencies.Conection import ConexionDB
+
 class FormularioClientes:
     def Formulario(self, root):
         try:
