@@ -47,11 +47,6 @@ class FormularioClientes:
             textBoxApellidos = Entry(groupBox, bg=entry_bg)
             textBoxApellidos.grid(row=2, column=1, padx=5, pady=5)
 
-            Label(groupBox, text="Sexo:", width=13, font=("Segoe UI",12), bg=groupbox_bg, fg=label_color).grid(row=3, column=0, padx=5, pady=5)
-            seleccionSexo = StringVar()
-            combo = ttk.Combobox(groupBox, values=["Masculino", "Femenino", "Anonimo"], textvariable=seleccionSexo)
-            combo.grid(row=3, column=1, padx=5, pady=5)
-
             Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(textBoxNombres.get(), textBoxApellidos.get())).grid(row=4, column=0, padx=2, pady=8)
             Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(textBoxId.get(), textBoxNombres.get(), textBoxApellidos.get())).grid(row=4, column=1, padx=2, pady=8)
             Button(groupBox, text="Eliminar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.eliminar_usuario(textBoxId.get())).grid(row=4, column=2, padx=2, pady=8)
@@ -79,7 +74,7 @@ class FormularioClientes:
                 font=("Segoe UI Semibold", 11, "bold")
             )
 
-            self.tree = ttk.Treeview(groupBox2, columns=("ID", "Nombres", "Apellidos", "Sexo"), show='headings', height=5)
+            self.tree = ttk.Treeview(groupBox2, columns=("ID", "Nombres", "Apellidos"), show='headings', height=5)
             self.tree.column("# 1", anchor=CENTER)
             self.tree.heading("# 1", text="ID")
 
