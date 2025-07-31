@@ -86,7 +86,17 @@ class FormularioClientes:
 
             self.tree.pack()
 
+            self.tree.bind("<<TreeviewSelect>>", self.on_tree_select)
             self.cargar_usuarios(self.tree)
+
+            self.textBoxId = Entry(groupBox, width=30)
+            self.textBoxId.grid(row=0, column=1, padx=5, pady=5)
+
+            self.textBoxNombres = Entry(groupBox, width=30)
+            self.textBoxNombres.grid(row=1, column=1, padx=5, pady=5)
+
+            self.textBoxApellidos = Entry(groupBox, width=30)
+            self.textBoxApellidos.grid(row=2, column=1, padx=5, pady=5)
 
             label_registrar = tk.Label(
                 base,
@@ -136,3 +146,19 @@ class FormularioClientes:
             tree.delete(row)
         for usuario in self.db.obtener_usuarios():
             tree.insert("", tk.END, values=usuario)
+
+    def on_tree_select(self, event):
+        selected_item = self.tree.selection()
+        if selected_item:
+            item = self.tree.item(selected_item)
+            valores = item["values"]
+
+            # Asignamos valores a los campos de texto
+            self.textBoxId.delete(0, tk.END)
+            self.textBoxId.insert(0, valores[0])
+
+            self.textBoxNombres.delete(0, tk.END)
+            self.textBoxNombres.insert(0, valores[1])
+
+            self.textBoxApellidos.delete(0, tk.END)
+            self.textBoxApellidos.insert(0, valores[2])
