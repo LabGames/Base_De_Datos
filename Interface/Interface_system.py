@@ -129,7 +129,7 @@ class FormularioClientes:
 
     def guardar_usuario(self, nombre, apellido, email):
         if nombre and apellido and email:
-            self.db.crear_usuario(nombre, apellido, email)
+            ConexionDB.crear_usuario(nombre, apellido, email)
             self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario guardado.")
         else:
@@ -137,7 +137,7 @@ class FormularioClientes:
 
     def modificar_usuario(self, user_id, nombre, apellido, email):
         if user_id and nombre and apellido and email:
-            self.db.actualizar_usuario(user_id, nombre, apellido, email)
+            ConexionDB.actualizar_usuario(user_id, nombre, apellido, email)
             self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario modificado.")
         else:
@@ -145,7 +145,7 @@ class FormularioClientes:
 
     def eliminar_usuario(self, user_id):
         if user_id:
-            self.db.eliminar_usuario(user_id)
+            ConexionDB.eliminar_usuario(user_id)
             self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario eliminado.")
         else:
