@@ -1,7 +1,7 @@
 import sqlite3
 
 class ConexionDB:
-    def __init__(self, db_path="gestiontarea.db"):
+    def __init__(self, db_path="DB_Gestion_Tareas.db"):
         self.db_path = db_path
         self.conn = None
         self.cursor = None
