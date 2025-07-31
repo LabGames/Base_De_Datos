@@ -7,6 +7,9 @@ from tkinter import messagebox
 from Dependencies.Conection import ConexionDB
 
 class FormularioClientes:
+    def __init__(self, db):
+        self.db = db
+
     def Formulario(self, root):
         try:
             bg_color = "#9babbb"

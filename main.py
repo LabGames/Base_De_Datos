@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     root.bind('<Escape>', exit_app)
 
-    formulario_clientes = FormularioClientes()
+    formulario_clientes = FormularioClientes(db)
     # root.bind('<space>', lambda event: destruir_interface())
     destruir_interface = formulario_clientes.Formulario(root)
 
