@@ -91,6 +91,8 @@ class FormularioClientes:
 
             tree.pack()
 
+            self.cargar_usuarios(tree)
+
             label_registrar = tk.Label(
                 base,
                 text="REGISTRAR PERSONAL",
@@ -113,13 +115,15 @@ class FormularioClientes:
     def guardar_usuario(self, nombre, email):
         if nombre and email:
             self.db.crear_usuario(nombre, email)
+            self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario guardado.")
         else:
             messagebox.showerror("Error", "Nombre y correo requeridos.")
-            
+
     def modificar_usuario(self, user_id, nombre, email):
         if user_id and nombre and email:
             self.db.actualizar_usuario(user_id, nombre, email)
+            self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario modificado.")
         else:
             messagebox.showerror("Error", "Todos los campos son requeridos.")
@@ -127,6 +131,13 @@ class FormularioClientes:
     def eliminar_usuario(self, user_id):
         if user_id:
             self.db.eliminar_usuario(user_id)
+            self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario eliminado.")
         else:
             messagebox.showerror("Error", "ID requerido.")
+
+    def cargar_usuarios(self, tree):
+        for row in tree.get_children():
+            tree.delete(row)
+        for usuario in self.db.obtener_usuarios():
+            tree.insert("", tk.END, values=usuario)
