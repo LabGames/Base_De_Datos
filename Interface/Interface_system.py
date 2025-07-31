@@ -51,7 +51,7 @@ class FormularioClientes:
             self.textBoxEmail = Entry(groupBox, width=30)
             self.textBoxEmail.grid(row=3, column=1, padx=5, pady=5)
 
-            Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(self.textBoxNombres.get() + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=0, padx=2, pady=8)
+            Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(self.textBoxNombres.get() + " " + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=0, padx=2, pady=8)
             Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(self.textBoxId.get(), self.textBoxNombres.get() + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=1, padx=2, pady=8)
             Button(groupBox, text="Eliminar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.eliminar_usuario(self.textBoxId.get())).grid(row=4, column=2, padx=2, pady=8)
 
@@ -96,18 +96,6 @@ class FormularioClientes:
             self.tree.bind("<<TreeviewSelect>>", self.on_tree_select)
             self.cargar_usuarios(self.tree)
 
-            self.textBoxId = Entry(groupBox, width=30)
-            self.textBoxId.grid(row=0, column=1, padx=5, pady=5)
-
-            self.textBoxNombres = Entry(groupBox, width=30)
-            self.textBoxNombres.grid(row=1, column=1, padx=5, pady=5)
-
-            self.textBoxApellidos = Entry(groupBox, width=30)
-            self.textBoxApellidos.grid(row=2, column=1, padx=5, pady=5)
-
-            self.textBoxEmail = Entry(groupBox, width=30)
-            self.textBoxEmail.grid(row=2, column=1, padx=5, pady=5)
-
             label_registrar = tk.Label(
                 base,
                 text="REGISTRAR PERSONAL",
@@ -127,10 +115,10 @@ class FormularioClientes:
         if hasattr(self, 'base'):
             self.base.destroy()
 
-    def guardar_usuario(self, nombre, apellido, email):
-        if nombre and apellido and email:
-            print(f"NOMBRE: {nombre}, APELLIDO: {apellido}, EMAIL: {email}")
-            ConexionDB.crear_usuario(nombre, apellido, email)
+    def guardar_usuario(self, nombre, email):
+        if nombre and email:
+            print(f"NOMBRE: {nombre}, EMAIL: {email}")
+            ConexionDB.crear_usuario(nombre, email)
             self.cargar_usuarios(self.tree)
             self.textBoxId.delete(0, tk.END)
             self.textBoxNombres.delete(0, tk.END)
@@ -138,12 +126,12 @@ class FormularioClientes:
             self.textBoxEmail.delete(0, tk.END)
             messagebox.showinfo("Éxito", "Usuario guardado.")
         else:
-            print(f"NOMBRE: {nombre}, APELLIDO: {apellido}, EMAIL: {email}")
+            print(f"NOMBRE: {nombre}, EMAIL: {email}")
             messagebox.showerror("Error", "Todos los campos son requeridos.")
 
-    def modificar_usuario(self, user_id, nombre, apellido, email):
-        if user_id and nombre and apellido and email:
-            ConexionDB.actualizar_usuario(user_id, nombre, apellido, email)
+    def modificar_usuario(self, user_id, nombre, email):
+        if user_id and nombre and email:
+            ConexionDB.actualizar_usuario(user_id, nombre, email)
             self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario modificado.")
         else:
