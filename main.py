@@ -2,6 +2,8 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 
+from Interface.test_interface import test_interface
+
 if __name__ == "__main__":
     root = Tk()
     root.title("Sistema de Venta de Aplicaciones")
@@ -14,13 +16,7 @@ if __name__ == "__main__":
     def exit_app(event=None):
         root.destroy()
 
-    etiqueta_cliente = tk.Label(root, text="Nombre del Cliente:")
-    etiqueta_cliente.pack()
-    entrada_cliente = tk.Entry(root)
-    entrada_cliente.pack()
-
-    boton_confirmar = tk.Button(root, text="Confirmar Venta", command=lambda: print("Venta realizada"))
-    boton_confirmar.pack()
+    test_interface(None, root)
 
     root.bind('<Escape>', exit_app)
     root.mainloop()
