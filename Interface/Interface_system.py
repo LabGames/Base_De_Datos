@@ -47,8 +47,12 @@ class FormularioClientes:
             textBoxApellidos = Entry(groupBox, bg=entry_bg)
             textBoxApellidos.grid(row=2, column=1, padx=5, pady=5)
 
-            Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(textBoxNombres.get(), textBoxApellidos.get())).grid(row=4, column=0, padx=2, pady=8)
-            Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(textBoxId.get(), textBoxNombres.get(), textBoxApellidos.get())).grid(row=4, column=1, padx=2, pady=8)
+            Label(groupBox, text="Email:", width=13, font=("Segoe UI",12), bg=groupbox_bg, fg=label_color).grid(row=3, column=0, padx=5, pady=5)
+            textBoxEmail = Entry(groupBox, bg=entry_bg)
+            textBoxEmail.grid(row=3, column=1, padx=5, pady=5)
+
+            Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(textBoxNombres.get(), textBoxApellidos.get(), textBoxEmail.get())).grid(row=4, column=0, padx=2, pady=8)
+            Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(textBoxId.get(), textBoxNombres.get(), textBoxApellidos.get(), textBoxEmail.get())).grid(row=4, column=1, padx=2, pady=8)
             Button(groupBox, text="Eliminar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.eliminar_usuario(textBoxId.get())).grid(row=4, column=2, padx=2, pady=8)
 
             groupBox2 = LabelFrame(
@@ -74,7 +78,7 @@ class FormularioClientes:
                 font=("Segoe UI Semibold", 11, "bold")
             )
 
-            self.tree = ttk.Treeview(groupBox2, columns=("ID", "Nombres", "Apellidos"), show='headings', height=5)
+            self.tree = ttk.Treeview(groupBox2, columns=("ID", "Nombres", "Apellidos", "Email"), show='headings', height=5)
             self.tree.column("# 1", anchor=CENTER)
             self.tree.heading("# 1", text="ID")
 
@@ -83,6 +87,9 @@ class FormularioClientes:
 
             self.tree.column("# 3", anchor=CENTER)
             self.tree.heading("# 3", text="Apellidos")
+
+            self.tree.column("# 4", anchor=CENTER)
+            self.tree.heading("# 4", text="Email")
 
             self.tree.pack()
 
@@ -97,6 +104,9 @@ class FormularioClientes:
 
             self.textBoxApellidos = Entry(groupBox, width=30)
             self.textBoxApellidos.grid(row=2, column=1, padx=5, pady=5)
+
+            self.textBoxEmail = Entry(groupBox, width=30)
+            self.textBoxEmail.grid(row=2, column=1, padx=5, pady=5)
 
             label_registrar = tk.Label(
                 base,
@@ -117,17 +127,17 @@ class FormularioClientes:
         if hasattr(self, 'base'):
             self.base.destroy()
 
-    def guardar_usuario(self, nombre):
-        if nombre:
-            self.db.crear_usuario(nombre)
+    def guardar_usuario(self, nombre, apellido, email):
+        if nombre and apellido and email:
+            self.db.crear_usuario(nombre, apellido, email)
             self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario guardado.")
         else:
-            messagebox.showerror("Error", "Nombre y correo requeridos.")
+            messagebox.showerror("Error", "Todos los campos son requeridos.")
 
-    def modificar_usuario(self, user_id, nombre):
-        if user_id and nombre :
-            self.db.actualizar_usuario(user_id, nombre)
+    def modificar_usuario(self, user_id, nombre, apellido, email):
+        if user_id and nombre and apellido and email:
+            self.db.actualizar_usuario(user_id, nombre, apellido, email)
             self.cargar_usuarios(self.tree)
             messagebox.showinfo("Éxito", "Usuario modificado.")
         else:
@@ -161,3 +171,6 @@ class FormularioClientes:
 
             self.textBoxApellidos.delete(0, tk.END)
             self.textBoxApellidos.insert(0, valores[2])
+
+            self.textBoxEmail.delete(0, tk.END)
+            self.textBoxEmail.insert(0, valores[3])
