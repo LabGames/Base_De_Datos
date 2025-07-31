@@ -84,9 +84,6 @@ class FormularioClientes:
             self.tree.column("# 3", anchor=CENTER)
             self.tree.heading("# 3", text="Apellidos")
 
-            self.tree.column("# 4", anchor=CENTER)
-            self.tree.heading("# 4", text="Sexo")
-
             self.tree.pack()
 
             self.cargar_usuarios(self.tree)
