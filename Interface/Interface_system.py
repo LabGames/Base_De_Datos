@@ -36,24 +36,24 @@ class FormularioClientes:
             groupBox.place(x=x_groupbox, y=y_groupbox)
 
             Label(groupBox, text="ID:", width=13, font=("Segoe UI",12), bg=groupbox_bg, fg=label_color).grid(row=0, column=0, padx=5, pady=5)
-            textBoxId = Entry(groupBox, bg=entry_bg)
-            textBoxId.grid(row=0, column=1, padx=5, pady=5)
+            self.textBoxId = Entry(groupBox, bg=entry_bg)
+            self.textBoxId.grid(row=0, column=1, padx=5, pady=5)
 
             Label(groupBox, text="Nombres:", width=13, font=("Segoe UI",12), bg=groupbox_bg, fg=label_color).grid(row=1, column=0, padx=5, pady=5)
-            textBoxNombres = Entry(groupBox, bg=entry_bg)
-            textBoxNombres.grid(row=1, column=1, padx=5, pady=5)
+            self.textBoxNombres = Entry(groupBox, bg=entry_bg)
+            self.textBoxNombres.grid(row=1, column=1, padx=5, pady=5)
 
             Label(groupBox, text="Apellidos:", width=13, font=("Segoe UI",12), bg=groupbox_bg, fg=label_color).grid(row=2, column=0, padx=5, pady=5)
-            textBoxApellidos = Entry(groupBox, bg=entry_bg)
-            textBoxApellidos.grid(row=2, column=1, padx=5, pady=5)
+            self.textBoxApellidos = Entry(groupBox, bg=entry_bg)
+            self.textBoxApellidos.grid(row=2, column=1, padx=5, pady=5)
 
             Label(groupBox, text="Email:", width=13, font=("Segoe UI",12), bg=groupbox_bg, fg=label_color).grid(row=3, column=0, padx=5, pady=5)
             self.textBoxEmail = Entry(groupBox, width=30)
             self.textBoxEmail.grid(row=3, column=1, padx=5, pady=5)
 
-            Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(textBoxNombres.get(), textBoxApellidos.get(), textBoxEmail.get())).grid(row=4, column=0, padx=2, pady=8)
-            Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(textBoxId.get(), textBoxNombres.get(), textBoxApellidos.get(), textBoxEmail.get())).grid(row=4, column=1, padx=2, pady=8)
-            Button(groupBox, text="Eliminar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.eliminar_usuario(textBoxId.get())).grid(row=4, column=2, padx=2, pady=8)
+            Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(self.textBoxNombres.get() + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=0, padx=2, pady=8)
+            Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(self.textBoxId.get(), self.textBoxNombres.get() + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=1, padx=2, pady=8)
+            Button(groupBox, text="Eliminar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.eliminar_usuario(self.textBoxId.get())).grid(row=4, column=2, padx=2, pady=8)
 
             groupBox2 = LabelFrame(
                 base, text="Lista del personal", padx=5, pady=5,
