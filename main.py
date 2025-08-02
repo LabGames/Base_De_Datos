@@ -2,9 +2,10 @@ from tkinter import *
 import tkinter as tk
 from tkinter import ttk
 
-from Interface.test_interface import test_interface
-from Interface.Interface_system import FormularioClientes
 from Dependencies.Conection import ConexionDB
+from Interface.Interface_Switcher import InterfaceSwitcher
+from Interface.Interface_system import FormularioClientes
+from Interface.Interface_system_2 import FormularioTareas
 
 if __name__ == "__main__":
     db = ConexionDB("localhost", "root", "", "gestiontarea")
@@ -15,6 +16,10 @@ if __name__ == "__main__":
     root = Tk()
     root.title("Sistema de Venta de Aplicaciones")
     root.geometry("1085x245")
+    root.resizable(False, False)
+
+    switcher = InterfaceSwitcher(root)
+    switcher.set_db(db)
 
     def exit_app(event=None):
         db.cerrar()
@@ -22,8 +27,6 @@ if __name__ == "__main__":
 
     root.bind('<Escape>', exit_app)
 
-    formulario_clientes = FormularioClientes(db)
-    # root.bind('<space>', lambda event: destruir_interface())
-    destruir_interface = formulario_clientes.Formulario(root)
+    switcher.show_clientes()
 
     root.mainloop()

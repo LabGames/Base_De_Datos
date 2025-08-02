@@ -5,11 +5,17 @@ from tkinter import ttk
 from tkinter import messagebox
 
 from Dependencies.Conection import ConexionDB
+from Interface_Switcher import InterfaceSwitcher
 
 class FormularioClientes:
     def __init__(self, db):
         self.db = ConexionDB()
         self.db.conectar()
+
+    def switching_interface(self):
+        switcher = InterfaceSwitcher(self.root)
+        switcher.set_db(self.db)
+        switcher.show_tareas()
 
     def Formulario(self, root):
         try:
@@ -54,6 +60,7 @@ class FormularioClientes:
             Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(self.textBoxNombres.get() + " " + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=0, padx=2, pady=8)
             Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(self.textBoxId.get(), self.textBoxNombres.get() + " " + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=1, padx=2, pady=8)
             Button(groupBox, text="Eliminar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.eliminar_usuario(self.textBoxId.get())).grid(row=4, column=2, padx=2, pady=8)
+            Button(groupBox, text="Tareas", width=10, bg=button_bg, fg=button_fg, command=lambda: self.switching_interface()).grid(row=4, column=3, padx=2, pady=8)
 
             groupBox2 = LabelFrame(
                 base, text="Lista del personal", padx=5, pady=5,
