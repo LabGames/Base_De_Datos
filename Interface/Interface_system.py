@@ -5,7 +5,6 @@ from tkinter import ttk
 from tkinter import messagebox
 
 from Dependencies.Conection import ConexionDB
-from .Interface_Switcher import InterfaceSwitcher
 
 class FormularioClientes:
     def __init__(self, db, switcher):
@@ -13,8 +12,11 @@ class FormularioClientes:
         self.db.conectar()
         self.switcher = switcher
 
-    def switching_interface(self):
-        self.switcher.show_tareas()
+    def switching_interface(self, root):
+        from .Interface_Switcher import InterfaceSwitcher
+        switcher = InterfaceSwitcher(root)
+        switcher.set_db(self.db)
+        switcher.show_tareas()
 
     def Formulario(self, root):
         try:
@@ -53,13 +55,13 @@ class FormularioClientes:
             self.textBoxApellidos.grid(row=2, column=1, padx=5, pady=5)
 
             Label(groupBox, text="Email:", width=13, font=("Segoe UI",12), bg=groupbox_bg, fg=label_color).grid(row=3, column=0, padx=5, pady=5)
-            self.textBoxEmail = Entry(groupBox, width=30)
+            self.textBoxEmail = Entry(groupBox, bg=entry_bg)
             self.textBoxEmail.grid(row=3, column=1, padx=5, pady=5)
 
             Button(groupBox, text="Guardar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.guardar_usuario(self.textBoxNombres.get() + " " + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=0, padx=2, pady=8)
-            Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(self.textBoxId.get(), self.textBoxNombres.get() + " " + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=1, padx=2, pady=8)
+            Button(groupBox, text="Modificar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.modificar_usuario(self.textBoxId.get(), self.textBoxNombres.get() + " " + self.textBoxApellidos.get(), self.textBoxEmail.get())).grid(row=4, column=1, padx=1, pady=8)
             Button(groupBox, text="Eliminar", width=10, bg=button_bg, fg=button_fg, command=lambda: self.eliminar_usuario(self.textBoxId.get())).grid(row=4, column=2, padx=2, pady=8)
-            Button(groupBox, text="Tareas", width=10, bg=button_bg, fg=button_fg, command=lambda: self.switching_interface()).grid(row=4, column=3, padx=2, pady=8)
+            Button(groupBox, text="Tareas", width=10, bg=button_bg, fg=button_fg, command=lambda: self.switching_interface(root)).grid(row=4, column=3, padx=2, pady=8)
 
             groupBox2 = LabelFrame(
                 base, text="Lista del personal", padx=5, pady=5,
