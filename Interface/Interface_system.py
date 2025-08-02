@@ -78,7 +78,7 @@ class FormularioClientes:
                 font=("Segoe UI Semibold", 11, "bold")
             )
 
-            self.tree = ttk.Treeview(groupBox2, columns=("ID", "Nombres", "Apellidos", "Email"), show='headings', height=5)
+            self.tree = ttk.Treeview(groupBox2, columns=("ID", "Nombres", "Email"), show='headings', height=5)
             self.tree.column("# 1", anchor=CENTER)
             self.tree.heading("# 1", text="ID")
 
@@ -86,10 +86,7 @@ class FormularioClientes:
             self.tree.heading("# 2", text="Nombres")
 
             self.tree.column("# 3", anchor=CENTER)
-            self.tree.heading("# 3", text="Apellidos")
-
-            self.tree.column("# 4", anchor=CENTER)
-            self.tree.heading("# 4", text="Email")
+            self.tree.heading("# 3", text="Email")
 
             self.tree.pack()
 
@@ -121,9 +118,8 @@ class FormularioClientes:
             self.db.crear_usuario(nombre, email)
             self.cargar_usuarios(self.tree)
             self.textBoxId.delete(0, tk.END)
-            self.textBoxNombres.delete(0, tk.END)
-            self.textBoxApellidos.delete(0, tk.END)
-            self.textBoxEmail.delete(0, tk.END)
+            self.textBoxNombres.delete(1, tk.END)
+            self.textBoxEmail.delete(2, tk.END)
             messagebox.showinfo("Éxito", "Usuario guardado.")
         else:
             print(f"NOMBRE: {nombre}, EMAIL: {email}")
@@ -176,3 +172,6 @@ class FormularioClientes:
                 self.textBoxApellidos.insert(0, nombre_split[1])
             else:
                 self.textBoxNombres.insert(0, nombre_split[0])
+
+            self.textBoxEmail.delete(0, tk.END)
+            self.textBoxEmail.insert(0, valores[2])
