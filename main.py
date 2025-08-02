@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     root = Tk()
     root.title("Sistema de Venta de Aplicaciones")
-    root.geometry("1230x245")
+    root.geometry("1085x245")
 
     def exit_app(event=None):
         db.cerrar()
