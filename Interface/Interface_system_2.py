@@ -77,7 +77,11 @@ class FormularioTareas:
             text="Guardar", 
             width=10,
             bg=button_bg, fg=button_fg,
-            command=lambda: self.guardar_tareas(self.textBoxId.get(), self.textBoxTittle.get(), self.seleccionEstado.get(), self.textBoxFechaLimite.get(), self.seleccionPrioridad.get(), self.textBoxId.get())
+            command=lambda: self.guardar_tareas(
+                self.textBoxTittle.get(), self.seleccionEstado.get(),
+                self.textBoxFechaLimite.get(), self.seleccionPrioridad.get(),
+                self.textBoxId.get()
+            )
         ).grid(row=6, column=0,)
 
         Button(
