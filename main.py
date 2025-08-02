@@ -11,8 +11,7 @@ if __name__ == "__main__":
 
     root = Tk()
     root.title("Sistema de Venta de Aplicaciones")
-    root.geometry("1085x245")
-    root.resizable(False, False)
+    
 
     switcher = InterfaceSwitcher(root)
     switcher.set_db(db)
@@ -23,4 +22,19 @@ if __name__ == "__main__":
 
     root.bind('<Escape>', exit_app)
     switcher.show_clientes()
+
+    x = 0
+    y = 0
+
+    def update():
+        InterfaceSwitcher.set_size(x, y)
+        
+        root.after(16, update)
+
+    update()
+
+    root.geometry("{x}x{y}+0+0")
+
     root.mainloop()
+
+    

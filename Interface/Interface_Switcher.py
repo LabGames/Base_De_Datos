@@ -21,3 +21,10 @@ class InterfaceSwitcher:
             self.current_interface.destruir_interface()
         self.current_interface = FormularioTareas(self.db, self)
         self.current_interface.Formulario_2(self.root)
+
+    def set_size(x, y):
+        if 'FormularioClientes' in globals() and hasattr(FormularioClientes, 'set_screen_size'):
+            FormularioClientes.set_screen_size(x, y)
+            
+        if 'FormularioTareas' in globals() and hasattr(FormularioTareas, 'set_screen_size'):
+            FormularioTareas.set_screen_size(x, y)

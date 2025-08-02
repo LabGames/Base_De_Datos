@@ -30,7 +30,7 @@ class FormularioClientes:
 
             x_base, y_base = 0, 0
             x_groupbox, y_groupbox = 10, 10
-            x_groupbox2, y_groupbox2 = 450, 50
+            x_groupbox2, y_groupbox2 = 470, 50
             x_label_registrar, y_label_registrar = -10, 7
 
             base = tk.Frame(root, bg=bg_color)
@@ -183,3 +183,7 @@ class FormularioClientes:
 
             self.textBoxEmail.delete(0, tk.END)
             self.textBoxEmail.insert(0, valores[2])
+
+    def set_screen_size(self, width, height):
+        self.width = 1085
+        self.height = 255

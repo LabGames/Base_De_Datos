@@ -13,14 +13,11 @@ class FormularioTareas:
         self.db.conectar()
         self.switcher = switcher
 
-    def switching_interface(self):
+    def switching_interface(self, root):
         from .Interface_Switcher import InterfaceSwitcher
-        switcher = InterfaceSwitcher(self.root)
+        switcher = InterfaceSwitcher(root)
         switcher.set_db(self.db)
         switcher.show_clientes()
-
-    def switching_interface(self):
-        self.switcher.show_clientes()
 
     def Formulario_2(self, root):
         bg_color = "#9babbb"
@@ -33,7 +30,7 @@ class FormularioTareas:
 
         x_base, y_base = 0, 0
         x_groupbox, y_groupbox = 10, 10
-        x_groupbox2, y_groupbox2 = 450, 50
+        x_groupbox2, y_groupbox2 = 500, 50
         x_label_registrar, y_label_registrar = -10, 7
         
         base = tk.Frame(root, bg=bg_color)
@@ -45,31 +42,31 @@ class FormularioTareas:
         )
         groupBox.place(x=x_groupbox, y=y_groupbox)
 
-        LabelId = Label(groupBox, text="ID USUARIO:", width=13, font=("arial",12)).grid(row=0, column=0, padx=5, pady=5)
+        LabelId = Label(groupBox, text="ID USUARIO:", width=13, font=("Segoe UI Semibold",12)).grid(row=0, column=0, padx=5, pady=5)
         self.textBoxId = Entry(groupBox, bg=entry_bg, state="readonly")
         self.textBoxId.grid(row=0, column=1, padx=5, pady=5)
 
-        LabelId_2 = Label(groupBox, text="ID TAREA:", width=13, font=("arial",12)).grid(row=1, column=0, padx=5, pady=5)
+        LabelId_2 = Label(groupBox, text="ID TAREA:", width=13, font=("Segoe UI Semibold",12)).grid(row=1, column=0, padx=5, pady=5)
         self.textBoxId_2 = Entry(groupBox, bg=entry_bg, state="readonly")
         self.textBoxId_2.grid(row=1, column=1, padx=5, pady=5)
 
-        LabelTitulo = Label(groupBox, text="Titulo:", width=13, font=("arial",12)).grid(row=2, column=0, padx=5, pady=5)
+        LabelTitulo = Label(groupBox, text="Titulo:", width=13, font=("Segoe UI Semibold",12)).grid(row=2, column=0, padx=5, pady=5)
         self.textBoxTittle = Entry(groupBox, bg=entry_bg)
         self.textBoxTittle.grid(row=2, column=1, padx=5, pady=5)
 
-        LabelEstado = Label(groupBox, text="Estado:", width=13, font=("arial",12)).grid(row=3, column=0, padx=5, pady=5)
+        LabelEstado = Label(groupBox, text="Estado:", width=13, font=("Segoe UI Semibold",12)).grid(row=3, column=0, padx=5, pady=5)
         self.seleccionEstado = StringVar()
         self.combo = ttk.Combobox(groupBox, values=["Pendiente", "En progreso", "Completada"], textvariable=self.seleccionEstado)
         self.combo.grid(row=3, column=1, padx=5, pady=5)
         self.seleccionEstado.set("Pendiente")
 
-        LabelFechaLimite = Label(groupBox, text="FechaLimite:", width=13, font=("arial",12)).grid(row=4, column=0, padx=5, pady=5)
+        LabelFechaLimite = Label(groupBox, text="FechaLimite:", width=13, font=("Segoe UI Semibold",12)).grid(row=4, column=0, padx=5, pady=5)
         self.fecha_actual = datetime.datetime.now().strftime("%Y-%m-%d")
         self.textBoxFechaLimite = Entry(groupBox, bg=entry_bg)
         self.textBoxFechaLimite.insert(0, self.fecha_actual)
         self.textBoxFechaLimite.grid(row=4, column=1, padx=5, pady=5)
 
-        LabelPrioridad = Label(groupBox, text="Prioridad:", width=13, font=("arial",12)).grid(row=5, column=0, padx=5, pady=5)
+        LabelPrioridad = Label(groupBox, text="Prioridad:", width=13, font=("Segoe UI Semibold",12)).grid(row=5, column=0, padx=5, pady=5)
         self.seleccionPrioridad = StringVar()
         self.combo = ttk.Combobox(groupBox, values=["Alta", "Media", "Baja"], textvariable=self.seleccionPrioridad)
         self.combo.grid(row=5, column=1, padx=5, pady=5)
@@ -131,7 +128,7 @@ class FormularioTareas:
             font=("Segoe UI Semibold", 11, "bold")
         )
 
-        self.tabla = ttk.Treeview(root, columns=("id", "titulo", "estado", "fecha", "prioridad", "tarea ID"), show="headings")
+        self.tabla = ttk.Treeview(groupBox2, columns=("id", "titulo", "estado", "fecha", "prioridad", "tarea ID"), show="headings")
         self.tabla.column("# 1", anchor=CENTER)
         self.tabla.heading("# 1", text="ID")
 
@@ -148,12 +145,12 @@ class FormularioTareas:
         self.tabla.heading("# 5", text="Prioridad")
 
         self.tabla.column("# 6", anchor=CENTER)
-        self.tabla.heading("# 7", text="Tarea ID")
+        self.tabla.heading("# 6", text="Tarea ID")
 
         self.tabla.pack()
         self.tabla.bind("<<TreeviewSelect>>", self.on_tree_select)
 
-        self.cargar_tareas()
+        self.cargar_tareas(self.tabla)
 
         label_registrar = tk.Label(
             base,
@@ -232,4 +229,7 @@ class FormularioTareas:
             self.textBoxId.delete(0, END)
             self.textBoxId.insert(0, valores[5])
             self.textBoxId.config(state="readonly")
-            
+    
+    def set_screen_size(self, width, height):
+        self.width = 1585
+        self.height = 355
