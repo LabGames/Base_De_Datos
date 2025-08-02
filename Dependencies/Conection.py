@@ -83,22 +83,22 @@ class ConexionDB:
             print(f"Error al acceder a la tabla tareas: {e}")
             return []
 
-    def crear_tarea(self, titulo, estado, fecha_limite, prioridad, usuario_id):
+    def crear_tarea(self, titulo, estado, fecha_limite, prioridad):
         try:
             self.cursor.execute(
-                "INSERT INTO tareas (titulo, estado, fecha_limite, prioridad, usuario_id) VALUES (%s, %s, %s, %s, %s)",
-                (titulo, estado, fecha_limite, prioridad, usuario_id)
+                "INSERT INTO tareas (titulo, estado, fecha_limite, prioridad) VALUES (%s, %s, %s, %s, %s)",
+                (titulo, estado, fecha_limite, prioridad)
             )
             self.conn.commit()
             print("Tarea creada correctamente.")
         except mysql.connector.Error as e:
             print(f"Error al crear tarea: {e}")
 
-    def actualizar_tarea(self, tarea_id, titulo, estado, fecha_limite, prioridad, usuario_id):
+    def actualizar_tarea(self, titulo, estado, fecha_limite, prioridad):
         try:
             self.cursor.execute(
-                "UPDATE tareas SET titulo=%s, estado=%s, fecha_limite=%s, prioridad=%s, usuario_id=%s WHERE id=%s",
-                (titulo, estado, fecha_limite, prioridad, usuario_id, tarea_id)
+                "UPDATE tareas SET titulo=%s, estado=%s, fecha_limite=%s, prioridad=%s",
+                (titulo, estado, fecha_limite, prioridad)
             )
             self.conn.commit()
             print("Tarea actualizada correctamente.")

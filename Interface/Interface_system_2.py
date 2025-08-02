@@ -172,10 +172,10 @@ class FormularioTareas:
         if hasattr(self, 'base'):
             self.base.destroy()
 
-    def guardar_tareas(self, titulo, estado, fecha_limite, prioridad, usuario_id):
-        if titulo and estado and fecha_limite and prioridad and usuario_id:
-            print(f"NOMBRE: {titulo}, EMAIL: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}, USUARIO_ID: {usuario_id}")
-            self.db.crear_tarea(titulo, estado, fecha_limite, prioridad, usuario_id)
+    def guardar_tareas(self, titulo, estado, fecha_limite, prioridad):
+        if titulo and estado and fecha_limite and prioridad:
+            print(f"NOMBRE: {titulo}, EMAIL: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}")
+            self.db.crear_tarea(titulo, estado, fecha_limite, prioridad)
             self.cargar_tareas(self.tabla)
             self.textBoxId.delete(0, tk.END)
             self.textBoxId_2.delete(1, tk.END)
@@ -183,12 +183,12 @@ class FormularioTareas:
             self.textBoxFechaLimite.delete(4, tk.END)
             messagebox.showinfo("Éxito", "Usuario guardado.")
         else:
-            print(f"NOMBRE: {titulo}, EMAIL: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}, USUARIO_ID: {usuario_id}")
+            print(f"NOMBRE: {titulo}, EMAIL: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}")
             messagebox.showerror("Error", "Todos los campos son requeridos.")
 
-    def modificar_tareas(self, tarea_id, titulo, estado, fecha_limite, prioridad, usuario_id):
-        if tarea_id and titulo and estado and fecha_limite and prioridad and usuario_id:
-            self.db.actualizar_tarea(tarea_id, titulo, estado, fecha_limite, prioridad, usuario_id)
+    def modificar_tareas(self, titulo, estado, fecha_limite, prioridad):
+        if titulo and estado and fecha_limite and prioridad:
+            self.db.actualizar_tarea(titulo, estado, fecha_limite, prioridad)
             self.cargar_tareas(self.tabla)
             messagebox.showinfo("Éxito", "Usuario modificado.")
         else:
