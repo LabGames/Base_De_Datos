@@ -2,12 +2,16 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
 from Dependencies.Conection import ConexionDB
-from Interface.Interface_Switcher import InterfaceSwitcher
+from .Interface_Switcher import InterfaceSwitcher
 
 class FormularioTareas:
-    def __init__(self, db):
+    def __init__(self, db, switcher):
         self.db = ConexionDB()
         self.db.conectar()
+        self.switcher = switcher
+
+    def switching_interface(self):
+        self.switcher.show_clientes()
 
     def Formulario_2(self, root):
         bg_color = "#9babbb"

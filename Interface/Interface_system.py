@@ -5,17 +5,16 @@ from tkinter import ttk
 from tkinter import messagebox
 
 from Dependencies.Conection import ConexionDB
-from Interface_Switcher import InterfaceSwitcher
+from .Interface_Switcher import InterfaceSwitcher
 
 class FormularioClientes:
-    def __init__(self, db):
+    def __init__(self, db, switcher):
         self.db = ConexionDB()
         self.db.conectar()
+        self.switcher = switcher
 
     def switching_interface(self):
-        switcher = InterfaceSwitcher(self.root)
-        switcher.set_db(self.db)
-        switcher.show_tareas()
+        self.switcher.show_tareas()
 
     def Formulario(self, root):
         try:
