@@ -71,34 +71,40 @@ class ConexionDB:
         except mysql.connector.Error as e:
             print(f"Error al eliminar usuario: {e}")
 
-    #Funciones de un usuario
-    def obtener_tareas(self):
+    # Obtiene las tareas de un usuario específico
+    def obtener_tareas(self, usuario_id):
         if not self.cursor:
             print("No hay conexión activa.")
             return []
         try:
-            self.cursor.execute("SELECT * FROM tareas")
+            self.cursor.execute("SELECT * FROM tareas WHERE usuario_id = %s", (usuario_id,))
             return self.cursor.fetchall()
         except mysql.connector.Error as e:
             print(f"Error al acceder a la tabla tareas: {e}")
             return []
 
-    def crear_tarea(self, titulo, estado, fecha_limite, prioridad):
+    def crear_tarea(self, titulo, estado, fecha_limite, prioridad, usuario_id):
+        if not self.cursor:
+            print("No hay conexión activa.")
+            return
         try:
             self.cursor.execute(
-                "INSERT INTO tareas (titulo, estado, fecha_limite, prioridad) VALUES (%s, %s, %s, %s, %s)",
-                (titulo, estado, fecha_limite, prioridad)
+                "INSERT INTO tareas (titulo, estado, fecha_limite, prioridad, usuario_id) VALUES (%s, %s, %s, %s, %s)",
+                (titulo, estado, fecha_limite, prioridad, usuario_id)
             )
             self.conn.commit()
             print("Tarea creada correctamente.")
         except mysql.connector.Error as e:
             print(f"Error al crear tarea: {e}")
 
-    def actualizar_tarea(self, titulo, estado, fecha_limite, prioridad):
+    def actualizar_tarea(self, tarea_id, titulo, estado, fecha_limite, prioridad):
+        if not self.cursor:
+            print("No hay conexión activa.")
+            return
         try:
             self.cursor.execute(
-                "UPDATE tareas SET titulo=%s, estado=%s, fecha_limite=%s, prioridad=%s",
-                (titulo, estado, fecha_limite, prioridad)
+                "UPDATE tareas SET titulo=%s, estado=%s, fecha_limite=%s, prioridad=%s WHERE id=%s",
+                (titulo, estado, fecha_limite, prioridad, tarea_id)
             )
             self.conn.commit()
             print("Tarea actualizada correctamente.")
@@ -106,6 +112,9 @@ class ConexionDB:
             print(f"Error al actualizar tarea: {e}")
 
     def eliminar_tarea(self, tarea_id):
+        if not self.cursor:
+            print("No hay conexión activa.")
+            return
         try:
             self.cursor.execute(
                 "DELETE FROM tareas WHERE id=%s",

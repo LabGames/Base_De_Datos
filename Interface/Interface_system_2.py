@@ -89,7 +89,7 @@ class FormularioTareas:
             text="Modificar", 
             width=10,
             bg=button_bg, fg=button_fg,
-            command=lambda: self.modificar_tareas(self.textBoxId_2.get(), self.textBoxTittle.get(), self.seleccionEstado.get(), self.textBoxFechaLimite.get(), self.seleccionPrioridad.get(), self.textBoxId.get())
+            command=lambda: self.modificar_tareas(self.textBoxTittle.get(), self.seleccionEstado.get(), self.textBoxFechaLimite.get(), self.seleccionPrioridad.get())
         ).grid(row=6, column=1)
 
         Button(
@@ -172,18 +172,19 @@ class FormularioTareas:
         if hasattr(self, 'base'):
             self.base.destroy()
 
-    def guardar_tareas(self, titulo, estado, fecha_limite, prioridad):
-        if titulo and estado and fecha_limite and prioridad:
-            print(f"NOMBRE: {titulo}, EMAIL: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}")
-            self.db.crear_tarea(titulo, estado, fecha_limite, prioridad)
+    def guardar_tareas(self, titulo, estado, fecha_limite, prioridad, usuario_id):
+        if titulo and estado and fecha_limite and prioridad and usuario_id:
+            print(f"TITULO: {titulo}, ESTADO: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}, USUARIO_ID: {usuario_id}")
+            self.db.crear_tarea(titulo, estado, fecha_limite, prioridad, usuario_id)
             self.cargar_tareas(self.tabla)
+
             self.textBoxId.delete(0, tk.END)
-            self.textBoxId_2.delete(1, tk.END)
-            self.textBoxTittle.delete(2, tk.END)
-            self.textBoxFechaLimite.delete(4, tk.END)
-            messagebox.showinfo("Éxito", "Usuario guardado.")
+            self.textBoxId_2.delete(0, tk.END)
+            self.textBoxTittle.delete(0, tk.END)
+            self.textBoxFechaLimite.delete(0, tk.END)
+
+            messagebox.showinfo("Éxito", "Tarea guardada.")
         else:
-            print(f"NOMBRE: {titulo}, EMAIL: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}")
             messagebox.showerror("Error", "Todos los campos son requeridos.")
 
     def modificar_tareas(self, titulo, estado, fecha_limite, prioridad):
