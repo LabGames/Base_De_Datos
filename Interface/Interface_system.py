@@ -14,7 +14,6 @@ class FormularioClientes:
     def Formulario(self, root):
         try:
             bg_color = "#9babbb"
-            bg_transparent = "#f0f4f800"
             frame_color = "#e0e7ef"
             label_color = "#2d4059"
             entry_bg = "#ffffff"
@@ -166,8 +165,14 @@ class FormularioClientes:
             self.textBoxNombres.delete(0, tk.END)
             self.textBoxNombres.insert(0, valores[1])
 
-            self.textBoxApellidos.delete(0, tk.END)
-            self.textBoxApellidos.insert(0, valores[2])
+            nombre_apellido = valores[1]
+            nombre_split = nombre_apellido.strip().split(" ", 1)
 
-            self.textBoxEmail.delete(0, tk.END)
-            self.textBoxEmail.insert(0, valores[3])
+            self.textBoxNombres.delete(0, END)
+            self.textBoxApellidos.delete(0, END)
+
+            if len(nombre_split) == 2:
+                self.textBoxNombres.insert(0, nombre_split[0])
+                self.textBoxApellidos.insert(0, nombre_split[1])
+            else:
+                self.textBoxNombres.insert(0, nombre_split[0])
