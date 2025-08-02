@@ -33,8 +33,6 @@ class FormularioClientes:
             x_groupbox2, y_groupbox2 = 470, 50
             x_label_registrar, y_label_registrar = -10, 7
 
-            self.set_resize(1085, 245)
-
             base = tk.Frame(root, bg=bg_color)
             base.place(x=x_base, y=y_base, relwidth=1, relheight=1)
 
