@@ -205,8 +205,8 @@ class FormularioTareas:
     def cargar_tareas(self, tabla):
         for row in tabla.get_children():
             tabla.delete(row)
-        for usuario in self.db.obtener_tareas():
-            tabla.insert("", tk.END, values=usuario)
+        for tarea in self.db.obtener_tareas():
+            tabla.insert("", tk.END, values=tarea)
 
     def on_tree_select(self, event):
         selected_item = self.tabla.selection()

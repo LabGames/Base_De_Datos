@@ -72,12 +72,12 @@ class ConexionDB:
             print(f"Error al eliminar usuario: {e}")
 
     # Obtiene las tareas de un usuario específico
-    def obtener_tareas(self, usuario_id):
+    def obtener_tareas(self):
         if not self.cursor:
             print("No hay conexión activa.")
             return []
         try:
-            self.cursor.execute("SELECT * FROM tareas WHERE usuario_id = %s", (usuario_id,))
+            self.cursor.execute("SELECT * FROM tareas")
             return self.cursor.fetchall()
         except mysql.connector.Error as e:
             print(f"Error al acceder a la tabla tareas: {e}")
