@@ -149,7 +149,7 @@ class FormularioTareas:
         self.tabla.pack()
         self.tabla.bind("<<TreeviewSelect>>", self.on_tree_select)
 
-        self.cargar_tareas(self.tabla)
+        self.cargar_tarea(self.tabla)
 
         label_registrar = tk.Label(
             base,
