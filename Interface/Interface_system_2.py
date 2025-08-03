@@ -176,9 +176,6 @@ class FormularioTareas:
             print(f"TITULO: {titulo}, ESTADO: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}")
             self.db.crear_tarea(titulo, estado, fecha_limite, prioridad)
             self.cargar_tareas(self.tabla)
-
-            self.textBoxId.delete(0, tk.END)
-            self.textBoxId_2.delete(0, tk.END)
             self.textBoxTittle.delete(0, tk.END)
             self.textBoxFechaLimite.delete(0, tk.END)
 
@@ -222,17 +219,17 @@ class FormularioTareas:
             self.textBoxTittle.delete(0, tk.END)
             self.textBoxTittle.insert(0, valores[1])
 
-            self.seleccionEstado.get(valores[2])
+            self.seleccionEstado.get(valores[3])
 
             self.textBoxFechaLimite.delete(0, tk.END)
-            self.textBoxFechaLimite.insert(0, valores[3])
+            self.textBoxFechaLimite.insert(0, valores[4])
 
-            self.seleccionPrioridad.get(valores[4])
+            self.seleccionPrioridad.get(valores[5])
 
-            self.textBoxId.config(state="normal")
-            self.textBoxId.delete(0, END)
-            self.textBoxId.insert(0, valores[5])
-            self.textBoxId.config(state="readonly")
+            self.textBoxId_2.config(state="normal")
+            self.textBoxId_2.delete(0, END)
+            self.textBoxId_2.insert(0, valores[6])
+            self.textBoxId_2.config(state="readonly")
     
     def set_screen_size(self, width, height):
         self.width = 1585
