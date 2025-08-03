@@ -80,7 +80,6 @@ class FormularioTareas:
             command=lambda: self.guardar_tareas(
                 self.textBoxTittle.get(), self.seleccionEstado.get(),
                 self.textBoxFechaLimite.get(), self.seleccionPrioridad.get(),
-                self.textBoxId.get()
             )
         ).grid(row=6, column=0,)
 
@@ -89,7 +88,7 @@ class FormularioTareas:
             text="Modificar", 
             width=10,
             bg=button_bg, fg=button_fg,
-            command=lambda: self.modificar_tareas(self.textBoxTittle.get(), self.seleccionEstado.get(), self.textBoxFechaLimite.get(), self.seleccionPrioridad.get())
+            command=lambda: self.modificar_tareas(self.textBoxId_2.get(), self.textBoxTittle.get(), self.seleccionEstado.get(), self.textBoxFechaLimite.get(), self.seleccionPrioridad.get())
         ).grid(row=6, column=1)
 
         Button(
@@ -172,10 +171,10 @@ class FormularioTareas:
         if hasattr(self, 'base'):
             self.base.destroy()
 
-    def guardar_tareas(self, titulo, estado, fecha_limite, prioridad, usuario_id):
-        if titulo and estado and fecha_limite and prioridad and usuario_id:
-            print(f"TITULO: {titulo}, ESTADO: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}, USUARIO_ID: {usuario_id}")
-            self.db.crear_tarea(titulo, estado, fecha_limite, prioridad, usuario_id)
+    def guardar_tareas(self, titulo, estado, fecha_limite, prioridad):
+        if titulo and estado and fecha_limite and prioridad:
+            print(f"TITULO: {titulo}, ESTADO: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}")
+            self.db.crear_tarea(titulo, estado, fecha_limite, prioridad)
             self.cargar_tareas(self.tabla)
 
             self.textBoxId.delete(0, tk.END)
@@ -187,9 +186,9 @@ class FormularioTareas:
         else:
             messagebox.showerror("Error", "Todos los campos son requeridos.")
 
-    def modificar_tareas(self, titulo, estado, fecha_limite, prioridad):
-        if titulo and estado and fecha_limite and prioridad:
-            self.db.actualizar_tarea(titulo, estado, fecha_limite, prioridad)
+    def modificar_tareas(self, tarea_id, titulo, estado, fecha_limite, prioridad):
+        if tarea_id and titulo and estado and fecha_limite and prioridad:
+            self.db.actualizar_tarea(tarea_id, titulo, estado, fecha_limite, prioridad)
             self.cargar_tareas(self.tabla)
             messagebox.showinfo("Éxito", "Usuario modificado.")
         else:
