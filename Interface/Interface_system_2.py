@@ -219,16 +219,16 @@ class FormularioTareas:
             self.textBoxTittle.delete(0, tk.END)
             self.textBoxTittle.insert(0, valores[1])
 
-            self.seleccionEstado.get(valores[3])
+            self.seleccionEstado.set(valores[2])  # <- Arreglado
 
             self.textBoxFechaLimite.delete(0, tk.END)
-            self.textBoxFechaLimite.insert(0, valores[4])
+            self.textBoxFechaLimite.insert(0, valores[3])
 
-            self.seleccionPrioridad.get(valores[5])
+            self.seleccionPrioridad.set(valores[4])  # <- Arreglado
 
             self.textBoxId_2.config(state="normal")
             self.textBoxId_2.delete(0, END)
-            self.textBoxId_2.insert(0, valores[6])
+            self.textBoxId_2.insert(0, valores[5])
             self.textBoxId_2.config(state="readonly")
     
     def set_screen_size(self, width, height):
