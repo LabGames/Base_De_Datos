@@ -80,7 +80,7 @@ class ConexionDB:
             self.cursor.execute("SELECT * FROM tareas")
             return self.cursor.fetchall()
         except mysql.connector.Error as e:
-            print(f"Error al acceder a la tabla usuarios: {e}")
+            print(f"Error al acceder a la tabla tareas: {e}")
             return []
         
     def crear_tareas(self, titulo, estado, fecha_limite, prioridad):
@@ -90,9 +90,9 @@ class ConexionDB:
                 (titulo, estado, fecha_limite, prioridad)
             )
             self.conn.commit()
-            print("Tarea creado correctamente.")
+            print("Tarea creada correctamente.")
         except mysql.connector.Error as e:
-            print(f"Error al crear usuario: {e}")
+            print(f"Error al crear tarea: {e}")
 
     def actualizar_tareas(self, user_id, titulo, estado, fecha_limite, prioridad):
         try:
@@ -101,9 +101,9 @@ class ConexionDB:
                 (titulo, estado, fecha_limite, prioridad, user_id)
             )
             self.conn.commit()
-            print("Tarea actualizado correctamente.")
+            print("Tarea actualizada correctamente.")
         except mysql.connector.Error as e:
-            print(f"Error al actualizar usuario: {e}")
+            print(f"Error al actualizar tarea: {e}")
 
     def eliminar_tareas(self, title):
         try:
@@ -112,8 +112,8 @@ class ConexionDB:
                 (title)
             )
             self.conn.commit()
-            print("Usuario eliminado correctamente.")
+            print("Tarea eliminada correctamente.")
         except mysql.connector.Error as e:
-            print(f"Error al eliminar usuario: {e}")
+            print(f"Error al eliminar tarea: {e}")
 
     

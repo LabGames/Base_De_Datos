@@ -176,25 +176,25 @@ class FormularioTareas:
             self.textBoxFechaLimite.delete(0, tk.END)
             self.combo.set("Pendiente")
             self.combo_2.set("Media")
-            messagebox.showinfo("Éxito", "Usuario guardado.")
+            messagebox.showinfo("Éxito", "Tarea guardada.")
         else:
             messagebox.showerror("Error", "Todos los campos son requeridos.")
 
-    def modificar_tarea(self, user_id, nombre, email):
-        if user_id and nombre and email:
-            self.db.actualizar_tareas(user_id, nombre, email)
+    def modificar_tarea(self, user_id, titulo, estado, fecha_limite, prioridad):
+        if user_id and titulo and estado and fecha_limite and prioridad:
+            self.db.actualizar_tareas(user_id, titulo, estado, fecha_limite, prioridad)
             self.cargar_tarea(self.tabla)
-            messagebox.showinfo("Éxito", "Usuario modificado.")
+            messagebox.showinfo("Éxito", "Tarea modificada.")
         else:
             messagebox.showerror("Error", "Todos los campos son requeridos.")
 
-    def eliminar_tarea(self, user_id):
-        if user_id:
-            self.db.eliminar_tareas(user_id)
+    def eliminar_tarea(self, titulo):
+        if titulo:
+            self.db.eliminar_tareas(titulo)
             self.cargar_tarea(self.tabla)
-            messagebox.showinfo("Éxito", "Usuario eliminado.")
+            messagebox.showinfo("Éxito", "Tarea eliminada.")
         else:
-            messagebox.showerror("Error", "ID requerido.")
+            messagebox.showerror("Error", "Titulo requerido.")
 
     def cargar_tarea(self, tree):
         for row in tree.get_children():
@@ -212,10 +212,14 @@ class FormularioTareas:
             self.textBoxId.delete(0, END)
             self.textBoxId.insert(0, valores[0])
             self.textBoxId.config(state="readonly")
+
             self.textBoxTittle.delete(0, END)
             self.textBoxTittle.insert(0, valores[1])   
+
             self.combo.set(valores[2])
+
             self.textBoxFechaLimite.delete(0, END)
             self.textBoxFechaLimite.insert(0, valores[3])
+
             self.combo_2.set(valores[4])
         
