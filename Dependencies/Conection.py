@@ -71,7 +71,7 @@ class ConexionDB:
         except mysql.connector.Error as e:
             print(f"Error al eliminar usuario: {e}")
 
-    # Obtiene las tareas de un usuario específico
+    #Odio esta mierda
     def obtener_tareas(self):
         if not self.cursor:
             print("No hay conexión activa.")
@@ -80,41 +80,40 @@ class ConexionDB:
             self.cursor.execute("SELECT * FROM tareas")
             return self.cursor.fetchall()
         except mysql.connector.Error as e:
-            print(f"Error al acceder a la tabla tareas: {e}")
+            print(f"Error al acceder a la tabla usuarios: {e}")
             return []
-
-    def crear_tarea(self, titulo, estado, fecha_limite, prioridad):
+        
+    def crear_tareas(self, titulo, estado, fecha_limite, prioridad):
         try:
             self.cursor.execute(
-                "INSERT INTO tareas (titulo, estado, fecha_limite, prioridad) VALUES (%s, %s, %s, %s)",
+                "INSERT INTO tareas (titulo, estado, fecha_limite, prioridad) VALUES (%s, %s)",
                 (titulo, estado, fecha_limite, prioridad)
             )
             self.conn.commit()
-            print("Tarea creada correctamente.")
+            print("Tarea creado correctamente.")
         except mysql.connector.Error as e:
-            print(f"Error al crear tarea: {e}")
+            print(f"Error al crear usuario: {e}")
 
-    def actualizar_tarea(self, tarea_id, titulo, estado, fecha_limite, prioridad):
+    def actualizar_tareas(self, user_id, titulo, estado, fecha_limite, prioridad):
         try:
             self.cursor.execute(
                 "UPDATE tareas SET titulo=%s, estado=%s, fecha_limite=%s, prioridad=%s WHERE id=%s",
-                (titulo, estado, fecha_limite, prioridad, tarea_id)
+                (titulo, estado, fecha_limite, prioridad, user_id)
             )
             self.conn.commit()
-            print("Tarea actualizada correctamente.")
+            print("Tarea actualizado correctamente.")
         except mysql.connector.Error as e:
-            print(f"Error al actualizar tarea: {e}")
+            print(f"Error al actualizar usuario: {e}")
 
-    def eliminar_tarea(self, tarea_id):
-        if not self.cursor:
-            print("No hay conexión activa.")
-            return
+    def eliminar_tareas(self, title):
         try:
             self.cursor.execute(
-                "DELETE FROM tareas WHERE id=%s",
-                (tarea_id,)
+                "DELETE FROM tareas SET titulo=%s VALUES (%s, %s)",
+                (title)
             )
             self.conn.commit()
-            print("Tarea eliminada correctamente.")
+            print("Usuario eliminado correctamente.")
         except mysql.connector.Error as e:
-            print(f"Error al eliminar tarea: {e}")
+            print(f"Error al eliminar usuario: {e}")
+
+    

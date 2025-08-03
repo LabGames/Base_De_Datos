@@ -13,6 +13,5 @@ CREATE TABLE tareas (
     estado ENUM('pendiente', 'en_progreso', 'completada') DEFAULT 'pendiente',
     fecha_limite DATE,
     prioridad ENUM('alta', 'media', 'baja') DEFAULT 'media',
-    usuario_id INT,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );

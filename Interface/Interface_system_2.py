@@ -46,30 +46,26 @@ class FormularioTareas:
         self.textBoxId = Entry(groupBox, bg=entry_bg, state="readonly")
         self.textBoxId.grid(row=0, column=1, padx=5, pady=5)
 
-        LabelId_2 = Label(groupBox, text="ID TAREA:", width=13, font=("Segoe UI Semibold",12)).grid(row=1, column=0, padx=5, pady=5)
-        self.textBoxId_2 = Entry(groupBox, bg=entry_bg)
-        self.textBoxId_2.grid(row=1, column=1, padx=5, pady=5)
-
         LabelTitulo = Label(groupBox, text="Titulo:", width=13, font=("Segoe UI Semibold",12)).grid(row=2, column=0, padx=5, pady=5)
         self.textBoxTittle = Entry(groupBox, bg=entry_bg)
-        self.textBoxTittle.grid(row=2, column=1, padx=5, pady=5)
+        self.textBoxTittle.grid(row=1, column=1, padx=5, pady=5)
 
         LabelEstado = Label(groupBox, text="Estado:", width=13, font=("Segoe UI Semibold",12)).grid(row=3, column=0, padx=5, pady=5)
         self.seleccionEstado = StringVar()
         self.combo = ttk.Combobox(groupBox, values=["Pendiente", "En progreso", "Completada"], textvariable=self.seleccionEstado)
-        self.combo.grid(row=3, column=1, padx=5, pady=5)
+        self.combo.grid(row=2, column=1, padx=5, pady=5)
         self.seleccionEstado.set("Pendiente")
 
         LabelFechaLimite = Label(groupBox, text="FechaLimite:", width=13, font=("Segoe UI Semibold",12)).grid(row=4, column=0, padx=5, pady=5)
         self.fecha_actual = datetime.datetime.now().strftime("%Y-%m-%d")
         self.textBoxFechaLimite = Entry(groupBox, bg=entry_bg)
         self.textBoxFechaLimite.insert(0, self.fecha_actual)
-        self.textBoxFechaLimite.grid(row=4, column=1, padx=5, pady=5)
+        self.textBoxFechaLimite.grid(row=3, column=1, padx=5, pady=5)
 
         LabelPrioridad = Label(groupBox, text="Prioridad:", width=13, font=("Segoe UI Semibold",12)).grid(row=5, column=0, padx=5, pady=5)
         self.seleccionPrioridad = StringVar()
-        self.combo = ttk.Combobox(groupBox, values=["Alta", "Media", "Baja"], textvariable=self.seleccionPrioridad)
-        self.combo.grid(row=5, column=1, padx=5, pady=5)
+        self.combo_2 = ttk.Combobox(groupBox, values=["Alta", "Media", "Baja"], textvariable=self.seleccionPrioridad)
+        self.combo_2.grid(row=4, column=1, padx=5, pady=5)
         self.seleccionPrioridad.set("Media")
 
         Button(
@@ -77,7 +73,7 @@ class FormularioTareas:
             text="Guardar", 
             width=10,
             bg=button_bg, fg=button_fg,
-            command=lambda: self.guardar_tareas(
+            command=lambda: self.guardar_tarea(
                 self.textBoxTittle.get(), self.seleccionEstado.get(),
                 self.textBoxFechaLimite.get(), self.seleccionPrioridad.get(),
             )
@@ -88,7 +84,10 @@ class FormularioTareas:
             text="Modificar", 
             width=10,
             bg=button_bg, fg=button_fg,
-            command=lambda: self.modificar_tareas(self.textBoxId_2.get(), self.textBoxTittle.get(), self.seleccionEstado.get(), self.textBoxFechaLimite.get(), self.seleccionPrioridad.get())
+            command=lambda: self.modificar_tarea(
+                self.textBoxId.get(), self.textBoxTittle.get(), 
+                self.seleccionEstado.get(), self.textBoxFechaLimite.get(), 
+                self.seleccionPrioridad.get())
         ).grid(row=6, column=1)
 
         Button(
@@ -96,7 +95,7 @@ class FormularioTareas:
             text="Eliminar", 
             width=10,
             bg=button_bg, fg=button_fg,
-            command=lambda: self.eliminar_tareas(self.textBoxId_2.get())
+            command=lambda: self.eliminar_tarea(self.textBoxTittle.get())
         ).grid(row=6, column=2)
 
         Button(
@@ -131,7 +130,7 @@ class FormularioTareas:
             font=("Segoe UI Semibold", 11, "bold")
         )
 
-        self.tabla = ttk.Treeview(groupBox2, columns=("id", "titulo", "estado", "fecha", "prioridad", "tarea ID"), show="headings")
+        self.tabla = ttk.Treeview(groupBox2, columns=("id", "titulo", "estado", "fecha", "prioridad"), show="headings")
         self.tabla.column("# 1", anchor=CENTER)
         self.tabla.heading("# 1", text="ID")
 
@@ -146,9 +145,6 @@ class FormularioTareas:
 
         self.tabla.column("# 5", anchor=CENTER)
         self.tabla.heading("# 5", text="Prioridad")
-
-        self.tabla.column("# 6", anchor=CENTER)
-        self.tabla.heading("# 6", text="Tarea ID")
 
         self.tabla.pack()
         self.tabla.bind("<<TreeviewSelect>>", self.on_tree_select)
@@ -171,47 +167,40 @@ class FormularioTareas:
         if hasattr(self, 'base'):
             self.base.destroy()
 
-    def guardar_tareas(self, titulo, estado, fecha_limite, prioridad):
-        titulo = self.textBoxTittle.get()
-        estado = self.seleccionEstado.get()
-        fecha_limite = self.textBoxFechaLimite.get()
-        prioridad = self.seleccionPrioridad.get()
+    def guardar_tarea(self, titulo, estado, fecha_limite, prioridad):
+        if titulo and estado and fecha_limite and prioridad:
+            self.db.crear_tareas(titulo, estado, fecha_limite, prioridad)
+            self.cargar_tarea(self.tabla)
+            self.textBoxId.delete(0, tk.END)
+            self.textBoxTittle.delete(1, tk.END)
+            self.textBoxFechaLimite.delete(0, tk.END)
+            self.combo.set("Pendiente")
+            self.combo_2.set("Media")
+            messagebox.showinfo("Éxito", "Usuario guardado.")
+        else:
+            messagebox.showerror("Error", "Todos los campos son requeridos.")
 
-        if not titulo or not estado or not fecha_limite or not prioridad:
-            messagebox.showwarning("Campos requeridos", "Todos los campos deben estar completos.")
-            return
+    def modificar_tarea(self, user_id, nombre, email):
+        if user_id and nombre and email:
+            self.db.actualizar_tareas(user_id, nombre, email)
+            self.cargar_tarea(self.tabla)
+            messagebox.showinfo("Éxito", "Usuario modificado.")
+        else:
+            messagebox.showerror("Error", "Todos los campos son requeridos.")
 
-        self.db.crear_tarea(titulo, estado, fecha_limite, prioridad)
-        ConexionDB.obtener_tareas()
-
-    def modificar_tareas(self, tarea_id, titulo, estado, fecha_limite, prioridad):
-        tarea_id = self.textBoxId.get()
-        if not tarea_id:
-            messagebox.showwarning("Error", "Seleccione una tarea para actualizar.")
-            return
-
-        titulo = self.textBoxTittle.get()
-        estado = self.seleccionEstado.get()
-        fecha_limite = self.textBoxFechaLimite.get()
-        prioridad = self.seleccionPrioridad.get()
-
-        self.db.actualizar_tarea(tarea_id, titulo, estado, fecha_limite, prioridad)
-        ConexionDB.obtener_tareas()
-
-
-    def eliminar_tareas(self, tarea_id):
-        if tarea_id:
-            self.db.eliminar_usuario(tarea_id)
-            self.cargar_tareas(self.tabla)
+    def eliminar_tarea(self, user_id):
+        if user_id:
+            self.db.eliminar_tareas(user_id)
+            self.cargar_tarea(self.tabla)
             messagebox.showinfo("Éxito", "Usuario eliminado.")
         else:
             messagebox.showerror("Error", "ID requerido.")
 
-    def cargar_tareas(self, tabla):
-        for row in tabla.get_children():
-            tabla.delete(row)
-        for tarea in self.db.obtener_tareas():
-            tabla.insert("", tk.END, values=tarea)
+    def cargar_tarea(self, tree):
+        for row in tree.get_children():
+            tree.delete(row)
+        for usuario in self.db.obtener_tareas():
+            tree.insert("", tk.END, values=usuario)
 
     def on_tree_select(self, event):
         selected_item = self.tabla.selection()
@@ -223,18 +212,10 @@ class FormularioTareas:
             self.textBoxId.delete(0, END)
             self.textBoxId.insert(0, valores[0])
             self.textBoxId.config(state="readonly")
-
-            self.textBoxTittle.delete(0, tk.END)
-            self.textBoxTittle.insert(0, valores[1])
-
-            self.seleccionEstado.set(valores[2])
-
-            self.textBoxFechaLimite.delete(0, tk.END)
+            self.textBoxTittle.delete(0, END)
+            self.textBoxTittle.insert(0, valores[1])   
+            self.combo.set(valores[2])
+            self.textBoxFechaLimite.delete(0, END)
             self.textBoxFechaLimite.insert(0, valores[3])
-
-            self.seleccionPrioridad.set(valores[4])
-
-            self.textBoxId_2.config(state="normal")
-            self.textBoxId_2.delete(0, END)
-            self.textBoxId_2.insert(0, valores[5])
-            
+            self.combo_2.set(valores[4])
+        
