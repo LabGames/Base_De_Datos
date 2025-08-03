@@ -47,7 +47,7 @@ class FormularioTareas:
         self.textBoxId.grid(row=0, column=1, padx=5, pady=5)
 
         LabelId_2 = Label(groupBox, text="ID TAREA:", width=13, font=("Segoe UI Semibold",12)).grid(row=1, column=0, padx=5, pady=5)
-        self.textBoxId_2 = Entry(groupBox, bg=entry_bg, state="readonly")
+        self.textBoxId_2 = Entry(groupBox, bg=entry_bg)
         self.textBoxId_2.grid(row=1, column=1, padx=5, pady=5)
 
         LabelTitulo = Label(groupBox, text="Titulo:", width=13, font=("Segoe UI Semibold",12)).grid(row=2, column=0, padx=5, pady=5)
