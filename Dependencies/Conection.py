@@ -85,25 +85,16 @@ class ConexionDB:
 
     def crear_tarea(self, titulo, estado, fecha_limite, prioridad):
         try:
-            self.cursor.execute("SELECT id FROM usuarios ORDER BY id DESC LIMIT 1")
-            usuario = self.cursor.fetchone()
-            if usuario:
-                usuario_id = usuario[0]
-                self.cursor.execute(
-                    "INSERT INTO tareas (titulo, estado, fecha_limite, prioridad, usuario_id) VALUES (%s, %s, %s, %s, %s)",
-                    (titulo, estado, fecha_limite, prioridad, usuario_id)
-                )
-                self.conn.commit()
-                print("Tarea creada correctamente.")
-            else:
-                print("No se encontró un usuario válido.")
+            self.cursor.execute(
+                "INSERT INTO tareas (titulo, estado, fecha_limite, prioridad) VALUES (%s, %s, %s, %s)",
+                (titulo, estado, fecha_limite, prioridad)
+            )
+            self.conn.commit()
+            print("Tarea creada correctamente.")
         except mysql.connector.Error as e:
             print(f"Error al crear tarea: {e}")
 
     def actualizar_tarea(self, tarea_id, titulo, estado, fecha_limite, prioridad):
-        if not self.cursor:
-            print("No hay conexión activa.")
-            return
         try:
             self.cursor.execute(
                 "UPDATE tareas SET titulo=%s, estado=%s, fecha_limite=%s, prioridad=%s WHERE id=%s",

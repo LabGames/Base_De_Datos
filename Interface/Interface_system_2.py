@@ -172,24 +172,32 @@ class FormularioTareas:
             self.base.destroy()
 
     def guardar_tareas(self, titulo, estado, fecha_limite, prioridad):
-        if titulo and estado and fecha_limite and prioridad:
-            print(f"TITULO: {titulo}, ESTADO: {estado}, FECHA: {fecha_limite}, PRIORIDAD: {prioridad}")
-            self.db.crear_tarea(titulo, estado, fecha_limite, prioridad)
-            self.cargar_tareas(self.tabla)
-            self.textBoxTittle.delete(0, tk.END)
-            self.textBoxFechaLimite.delete(0, tk.END)
+        titulo = self.textBoxTittle.get()
+        estado = self.seleccionEstado.get()
+        fecha_limite = self.textBoxFechaLimite.get()
+        prioridad = self.seleccionPrioridad.get()
 
-            messagebox.showinfo("Éxito", "Tarea guardada.")
-        else:
-            messagebox.showerror("Error", "Todos los campos son requeridos.")
+        if not titulo or not estado or not fecha_limite or not prioridad:
+            messagebox.showwarning("Campos requeridos", "Todos los campos deben estar completos.")
+            return
+
+        self.db.crear_tarea(titulo, estado, fecha_limite, prioridad)
+        ConexionDB.obtener_tareas()
 
     def modificar_tareas(self, tarea_id, titulo, estado, fecha_limite, prioridad):
-        if tarea_id and titulo and estado and fecha_limite and prioridad:
-            self.db.actualizar_tarea(tarea_id, titulo, estado, fecha_limite, prioridad)
-            self.cargar_tareas(self.tabla)
-            messagebox.showinfo("Éxito", "Usuario modificado.")
-        else:
-            messagebox.showerror("Error", "Todos los campos son requeridos.")
+        tarea_id = self.textBoxId.get()
+        if not tarea_id:
+            messagebox.showwarning("Error", "Seleccione una tarea para actualizar.")
+            return
+
+        titulo = self.textBoxTittle.get()
+        estado = self.seleccionEstado.get()
+        fecha_limite = self.textBoxFechaLimite.get()
+        prioridad = self.seleccionPrioridad.get()
+
+        self.db.actualizar_tarea(tarea_id, titulo, estado, fecha_limite, prioridad)
+        ConexionDB.obtener_tareas()
+
 
     def eliminar_tareas(self, tarea_id):
         if tarea_id:
@@ -219,18 +227,14 @@ class FormularioTareas:
             self.textBoxTittle.delete(0, tk.END)
             self.textBoxTittle.insert(0, valores[1])
 
-            self.seleccionEstado.set(valores[2])  # <- Arreglado
+            self.seleccionEstado.set(valores[2])
 
             self.textBoxFechaLimite.delete(0, tk.END)
             self.textBoxFechaLimite.insert(0, valores[3])
 
-            self.seleccionPrioridad.set(valores[4])  # <- Arreglado
+            self.seleccionPrioridad.set(valores[4])
 
             self.textBoxId_2.config(state="normal")
             self.textBoxId_2.delete(0, END)
             self.textBoxId_2.insert(0, valores[5])
-            self.textBoxId_2.config(state="readonly")
-    
-    def set_screen_size(self, width, height):
-        self.width = 1585
-        self.height = 355
+            
